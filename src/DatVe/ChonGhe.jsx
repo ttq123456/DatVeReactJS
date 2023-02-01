@@ -20,9 +20,27 @@ class ChonGhe extends Component {
                             </td>
                         }
                         else {
+                            let cssGheDuocChon = "";
+                            let viTri = this.props.gheDangChon.findIndex((gheDC) => {
+                                return gheDC.soGhe === hang.soGhe;
+                            });
+                            if (viTri !== -1){ 
+                                cssGheDuocChon = "gheDuocChon";
+                            } 
                             if (!hang.daDat) {
                                 return <td key={hang.soGhe}>
-                                    <button type="text" className='ghe m-1' value={hang.soGhe}>{hang.soGhe}</button>
+                                    <button onClick={() => {
+                                        
+                                        let action = {
+                                            type: "CHON_GHE",
+                                            gheChon: {
+                                                soGhe: hang.soGhe,
+                                                gia: hang.gia
+                                            }
+                                        }
+                                        this.props.dispatch(action);
+
+                                    }} type="text" className={`ghe m-1 ${cssGheDuocChon}`} value={hang.soGhe}>{hang.soGhe}</button>
                                 </td>
                             }
                             else {
@@ -59,7 +77,8 @@ const mapStateToProps = (rootReducer) => {
     return {
         danhSachGhe: rootReducer.datVeReducer.danhSachGhe,
         chonGhe: rootReducer.datVeReducer.chonGhe,
-
+        gheDangChon: rootReducer.datVeReducer.gheDangChon,
+        nguoiDatVe: rootReducer.datVeReducer.nguoiDatVe
     }
 }
 

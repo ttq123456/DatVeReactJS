@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 class XacNhan extends Component {
     renderGheChon() {
-        return this.props.gheDaChon.map((ghe) => {
+        return this.props.gheDangChon.map((ghe) => {
             return <tr key={ghe.soGhe}>
                 <td>{ghe.soGhe}</td>
                 <td>{ghe.gia}</td>
@@ -36,16 +36,27 @@ class XacNhan extends Component {
 
                 <h3 className='py-3'>Thông tin đặt vé</h3>
                 <table className='table' style={{ color: 'white' }}>
-                    <tr>
-                        <th>Số ghế</th>
-                        <th>Giá</th>
-                        <th>
+                    <thead>
+                        <td>Số ghế</td>
+                        <td>Giá</td>
+                        <td>
 
-                        </th>
-                    </tr>
-                    {this.renderGheChon()}
+                        </td>
+                    </thead>
+                    <tbody>
+                        {this.renderGheChon()}
+                    </tbody>
+                    <tfoot>
+                        <td>Tổng tiền:</td>
+                        <td>{this.props.tongTien}</td>
+                    </tfoot>
                 </table>
-                <button className='btn btn-danger'>Xác nhận đặt vé</button>
+                <button onClick={() => {
+                    let action = {
+                        type: "XAC_NHAN",
+                    }
+                    this.props.dispatch(action)
+                }} className='btn btn-danger'>Xác nhận đặt vé</button>
             </div>
         )
     }
@@ -53,7 +64,8 @@ class XacNhan extends Component {
 
 const mapStateToProps = (rootReducer) => {
     return {
-        gheDaChon: rootReducer.datVeReducer.gheDaChon,
+        gheDangChon: rootReducer.datVeReducer.gheDangChon,
+        tongTien: rootReducer.datVeReducer.tongTien
     }
 }
 

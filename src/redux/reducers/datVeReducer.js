@@ -183,25 +183,87 @@ const initialState = {
         }
 
     ],
-    gheDaChon: [
-        
+    gheDangChon: [
+
     ],
     chonGhe: false,
-    nguoiDatVe:{
-        hoTen:"",
-        soLuong:0,
+    nguoiDatVe: {
+        hoTen: "",
+        soLuong: 0,
     },
+    tongTien: 0,
 }
 
 export const datVeReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'BAT_DAU':
             state.chonGhe = action.chon;
-            return {...state}
+            return { ...state }
 
         case 'THONG_TIN':
             state.nguoiDatVe = action.newValue
-            return {...state}
+            return { ...state }
+
+        case "CHON_GHE":
+            if (state.chonGhe) {
+                let indexGhe = state.gheDangChon.findIndex((ghe) => {
+                    return ghe.soGhe === action.gheChon.soGhe
+                })
+                //console.log(indexGhe)
+                let soVe = state.gheDangChon.length;
+                //console.log(soVe)
+                if (indexGhe === -1) {
+                    if (soVe < state.nguoiDatVe.soLuong) {
+                        state.gheDangChon.push(action.gheChon)
+                        state.tongTien += action.gheChon.gia
+                    }
+                }
+                else {
+                    state.gheDangChon.splice(indexGhe, 1)
+                    state.tongTien = state.tongTien - action.gheChon.gia;
+                    
+                }
+
+                    //console.log(state.tongTien);
+                state.gheDangChon = [...state.gheDangChon]
+                return { ...state }
+            }
+
+        // eslint-disable-next-line no-fallthrough
+        case "XAC_NHAN":
+            console.log(state.nguoiDatVe.soLuong)
+            console.log(state.gheDangChon.length)
+            if (state.nguoiDatVe.soLuong == state.gheDangChon.length) {
+                for (let i = 0; i < state.gheDangChon.length; i++) {
+                    let hangGhe = state.gheDangChon[i].soGhe;
+                    hangGhe = hangGhe[0] ;
+                    console.log(hangGhe)
+                    let viTri = state.danhSachGhe.findIndex((ghe) => {
+                        return ghe.hang === hangGhe
+                    })
+                    console.log(viTri)
+                    let vtGhe = state.danhSachGhe[viTri].danhSachGhe.findIndex((ghe1) => {
+                        return ghe1.soGhe === state.gheDangChon[i].soGhe
+                     })
+                     console.log(vtGhe)
+                     let kq = state.danhSachGhe[viTri].danhSachGhe;
+                     kq[vtGhe].daDat = true;
+                     console.log(kq[vtGhe].daDat)
+                    
+                    
+                }
+                state.gheDangChon = [];
+                state.nguoiDatVe = {
+                   hoTen: "",
+                   soLuong: 0,
+                };
+                state.tongTien = 0;
+                state.chonGhe = false;
+
+                return {...state}
+            }
+           
+            
         default:
             return state
     }

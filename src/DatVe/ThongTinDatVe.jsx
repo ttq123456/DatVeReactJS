@@ -45,11 +45,11 @@ class ThongTinDatVe extends Component {
                         <div className="row">
                             <div className="col-6">
                                 <label htmlFor="" className='text-white'>Họ tên người đặt vé</label>
-                                <input onChange={this.handleOnChange} name='hoTen' type="text" className="form-control" placeholder='Họ tên' />
+                                <input onChange={this.handleOnChange} name='hoTen' type="text" className="form-control" placeholder='Họ tên' value={this.props.nguoiDatVe.hoTen}/>
                             </div>
                             <div className="col-6">
                                 <label htmlFor="" className='text-white'>Số vé đặt</label>
-                                <input onChange={this.handleOnChange} name='soLuong' type="text" className="form-control" placeholder='Số vé' />
+                                <input onChange={this.handleOnChange} name='soLuong' type="text" className="form-control" placeholder='Số vé' value={this.props.nguoiDatVe.soLuong} />
                             </div>
                         </div>
                         <button className='btn btn-danger my-2'>Chọn ghế</button>
